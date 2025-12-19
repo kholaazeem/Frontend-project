@@ -1,11 +1,180 @@
-<!DOCTYPE html>
+
+
+
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haute Hijab Clone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Custom Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Top Promo Bar */
+    .promo-bar {
+      background-color: #f8f1f1;
+      font-size: 20px;
+      text-align: center;
+      padding: 30px 0;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .promo-bar a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    /* Main Navbar Styling */
+    .navbar-custom {
+      background-color: #000000 !important;
+      padding: 85px 0;
+      width: 100%;
+    }
+
+    .navbar-brand-container {
+      color: white;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .navbar-brand-container h1 {
+      font-size: 32px;
+      letter-spacing: 4px;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+
+    .navbar-brand-container span {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-size: 20px;
+      text-transform: capitalize;
+      padding: 0 12px !important;
+    }
+
+    .nav-link:hover {
+      color: #ccc !important;
+    }
+
+    .nav-icons {
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icons a {
+      cursor: pointer;
+      font-size: 30px;
+      color: white;
+    }
+
+    .country-tag {
+      border: 1px solid white;
+      padding: 15px 30px;
+      font-size: 20px;
+      margin-left: 15px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 991px) {
+      .nav-icons { margin-top: 15px; justify-content: center; }
+      .navbar-brand-container { margin-bottom: 15px; }
+    }
+  </style>
 </head>
 <body>
-    
+
+        <!-- carousal -->
+  <div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="promo-bar">
+    🎉 RESTOCK MANIA SQUARES EDITION IS LIVE! <a href="#">SHOP NOW</a>
+  </div>
+    </div>
+    <div class="carousel-item">
+      <div class="promo-bar">
+    🎉 RESTOCK MANIA SQUARES EDITION IS LIVE! <a href="#">SHOP NOW</a>
+  </div>
+    </div>
+    <div class="carousel-item">
+     <div class="promo-bar">
+    🎉 RESTOCK MANIA SQUARES EDITION IS LIVE! <a href="#">SHOP NOW</a>
+  </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+       <!-- navbar -->
+
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+      
+      <div class="navbar-brand-container d-none d-lg-block">
+        <h1>HAUTE HIJAB</h1>
+        <span>NEW YORK</span>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#">Just In</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">New to Hijab?</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Hijabs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Accessories</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Collections</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Gifts and Sets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Back-in-Stock</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Restock Mania II 💃</a></li>
+        </ul>
+
+        <div class="nav-icons">
+          <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="signup.html"><i class="fa-regular fa-user"></i></a>
+          <a href="#"><i class="fa-solid fa-bag-shopping"></i></a>
+          <span class="country-tag">Pakistan</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <div class="container-fluid p-0">
+    <div style="background: url('/assets/01-bg-img') center/cover; height: 500px; position: relative;">
+        <h2 style="position: absolute; bottom: 50px; left: 50px; color: white; font-size: 4rem; font-weight: bold;">HIJAB TUTORIALS</h2>
+    </div>
+  </div> -->
+
+    <!-- background image -->
+  <div>
+    <img src="assets/01-bg-img" alt="" class="w-100">
+  </div>
+ <!-- <script type="module" src="config.js"></script>
+ <script type="module" src="auth.js"></script> -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
