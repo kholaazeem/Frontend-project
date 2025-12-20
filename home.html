@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Haute Hijab</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f1f0ee; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; }
+
+        /* Simple Header */
+        .simple-header {
+            background: #fff;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .logo-section h2 { font-size: 18px; letter-spacing: 3px; font-weight: bold; margin: 0; }
+        .logo-section span { font-size: 8px; letter-spacing: 2px; display: block; }
+        
+        .header-nav a { text-decoration: none; color: #000; font-size: 14px; margin: 0 15px; }
+        .header-nav a.active { text-decoration: underline; font-weight: bold; }
+
+        /* Main Container */
+        .dashboard-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+        /* Rewards Card */
+        .rewards-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+        }
+        .rewards-title { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .rewards-info { font-size: 14px; color: #666; margin: 10px 0; }
+        
+        .progress-bar-container { height: 6px; background: #eee; border-radius: 10px; margin: 20px 0; position: relative; }
+        .progress-fill { width: 30%; height: 100%; background: #ddd; border-radius: 10px; }
+        .tier-labels { display: flex; justify-content: space-between; font-size: 12px; color: #999; }
+
+        .btn-view-rewards {
+            border: 1px solid #ddd;
+            background: #fff;
+            padding: 5px 15px;
+            font-size: 13px;
+            border-radius: 5px;
+            float: right;
+        }
+
+        /* Orders Section */
+        .section-title { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+        .empty-orders-box {
+            background: #fff;
+            border-radius: 8px;
+            padding: 80px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .empty-orders-box h4 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+        .empty-orders-box p { color: #666; font-size: 14px; }
+        .empty-orders-box a { color: #000; text-decoration: underline; font-size: 14px; }
+
+        /* Bottom Footer Bar */
+        .bottom-footer {
+            margin-top: 100px;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        .bottom-footer a { color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header class="simple-header">
+        <div class="logo-section">
+            <h2>HAUTE HIJAB</h2>
+            <span>NEW YORK</span>
+        </div>
+        <nav class="header-nav">
+            <a href="index.html">Shop</a>
+            <a href="#" >Orders</a>
+            <a href="#">Rewards</a>
+        </nav>
+        <div class="user-icon">
+            <i class="fa-regular fa-circle-user fs-4"></i>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <div class="rewards-card">
+            <button class="btn-view-rewards">View rewards</button>
+            <div class="rewards-title">
+                <i class="fa-regular fa-star"></i> Haute Hijab Community Rewards
+            </div>
+            <p class="rewards-info">You're in Pearl and have 170 points available.</p>
+            
+            <div class="progress-bar-container">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="tier-labels">
+                <span>Pearl</span>
+                <span>Emerald</span>
+            </div>
+        </div>
+
+        <h3 class="section-title">Orders</h3>
+        <div class="empty-orders-box">
+            <h4>No orders yet</h4>
+            <p>Go to store to place an order.</p>
+        </div>
+
+        <div class="bottom-footer">
+            <a href="#"><i class="fa-solid fa-globe"></i> Pakistan <i class="fa-solid fa-chevron-down ms-1"></i></a>
+            <a href="#">Refund policy</a>
+            <a href="#">Shipping</a>
+            <a href="#">Privacy policy</a>
+            <a href="#">Terms of service</a>
+        </div>
+    </div>
+
+</body>
+</html>
