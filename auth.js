@@ -82,7 +82,12 @@ if(error){
     });
 }else{
 
-alert("Signup successful! Please verify your email before logging in.");
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Signup successful! Please verify your email before logging in.',
+       
+    });
 window.location.href = "home.html";
 }
     }
@@ -98,9 +103,11 @@ window.location.href = "home.html";
   let  loginBtn = document.getElementById("login-btn")
 
 
-  async  function login(){
+  async  function login(e){
 
     e.preventDefault();
+try {
+  
 
         
     if(!loginEmail.value){
@@ -123,5 +130,57 @@ window.location.href = "home.html";
      return
      
    }
+
+
+
+   const { data, error } = await supabase.auth.signInWithPassword({
+  email: loginEmail.value,
+  password: loginPass.value,
+})
+
+if(data){
+    console.log(data);
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Login successful!',
+       
+    }).then(() => {
+        window.location.href = "home.html"; // Redirect to dashboard after successful login
+    });
+}else{
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message,
+       
+    });
+}
   
   }
+   catch (err) {
+  alert("Error: " + err.message);
+}
+  }
+ loginBtn && loginBtn.addEventListener("click", login) 
+
+
+
+//  ================================================ logout functionality =================================================================================================   
+
+let logoutBtn = document.getElementById("logout-btn")
+
+
+logoutBtn && logoutBtn.addEventListener("click", async () => {
+    const { error } = await supabase.auth.signOut()
+    if(!error){
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Logout successful!',
+           
+        }).then(() => {
+            window.location.href = "login.html"; // Redirect to homepage after logout
+        });
+    }
+});
