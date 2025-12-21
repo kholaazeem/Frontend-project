@@ -1,168 +1,188 @@
-import supabase from "./config.js";  
+import supabase from "./config.js";
 
 
-            //  ============================================================Sign Up Functionality===========================================================================
+//  ============================================================Sign Up Functionality===========================================================================
 
- const signupBtn = document.getElementById("signup-btn");                    
- const signupEmail = document.getElementById("signup-email");
- const signupPass = document.getElementById("signup-pass");
- const firstName = document.getElementById("first-name");
- const lastName = document.getElementById("last-name");
-
-
+const signupBtn = document.getElementById("signup-btn");
+const signupEmail = document.getElementById("signup-email");
+const signupPass = document.getElementById("signup-pass");
+const firstName = document.getElementById("first-name");
+const lastName = document.getElementById("last-name");
 
 
-   signupBtn &&  signupBtn.addEventListener("click", async (e) => {  
-        e.preventDefault();
 
-        
- if(!signupEmail.value){
-  Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'please enter a valid email address',
-     
-  });
-  return
-}
 
-if(!signupPass.value){
-  Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'please enter atleast six characters password',
-     
-  });
-  return
-  
-}
+signupBtn && signupBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
 
-        const {data, error } = await supabase.auth.signUp(
-  {
-    email: signupEmail.value,
-    password: signupPass.value,
-    options: {
-      data: {
-        first_name: firstName.value,
-        last_name: lastName.value,
-        role: 'user'   // for security purpose : so that only admin has access of  dashboard 
-      }
-    }
-  }
-)
+  try {
 
-  if(data){
-  
-      
-    
-    console.log (data);
-    console.log (data.user);
-     console.log (data.user.id);
-    //  console.log (data.user.email);
-    // console.log (data.user.user_metadata);
-    // console.log(data.user.user_metadata.first_name);
-    // console.log(data.user.user_metadata.last_name);
-    // console.log(data.user.user_metadata.role);
-    // console.log(data.user.user_metadata.email);
-    const { error } = await supabase
-  .from('customers')
-  .insert({
-    uid: data.user.id,  // store auth id in table so that login user connect with database
-    first_name: data.user.user_metadata.first_name,
-    last_name: data.user.user_metadata.last_name,
-    email: data.user.email,
-    role: data.user.user_metadata.role
- 
-})
-if(error){
-    Swal.fire({
+
+
+    if (!signupEmail.value) {
+      Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.message,
-    });
-}else{
+        text: 'please enter a valid email address',
 
-    Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Signup successful! Please verify your email before logging in.',
-       
-    });
-window.location.href = "home.html";
-}
+      });
+      return
     }
 
-  });
+    if (!signupPass.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'please enter atleast six characters password',
 
+      });
+      return
 
-  //  ======================================================== login functionality =================================================================================================
+    }
 
+    const { data, error } = await supabase.auth.signUp(
+      {
+        email: signupEmail.value,
+        password: signupPass.value,
+        options: {
+          data: {
+            first_name: firstName.value,
+            last_name: lastName.value,
+            role: 'user'   // for security purpose : so that only admin has access of  dashboard 
+          }
+        }
+      }
+    )
 
-  let loginEmail = document.getElementById("login-email")
-  let loginPass = document.getElementById("login-password")
-  let  loginBtn = document.getElementById("login-btn")
-
-
-  async  function login(e){
-
-    e.preventDefault();
-try {
-  
-
-        
-    if(!loginEmail.value){
-     Swal.fire({
-         icon: 'error',
-         title: 'Error',
-         text: 'please enter a valid email address',
-        
-     });
-     return
-   }
-   
-   if(!loginPass.value){
-     Swal.fire({
-         icon: 'error',
-         title: 'Error',
-         text: 'please enter atleast six characters password',
-        
-     });
-     return
-     
-   }
+    if (data.user) {  // data.user iss liye diya qk jb hm invalid email format dy rhy hain  to user sign up nhi ho rha but phir bhi if block chl rha bcz data aik object ha and object always true hota ha although properties null(false ) bhi hn so isi liye data.user chlk kra rhy
 
 
 
-   const { data, error } = await supabase.auth.signInWithPassword({
-  email: loginEmail.value,
-  password: loginPass.value,
-})
 
-if(data){
-    console.log(data);
+      console.log(data);
+      console.log(data.user);
+      //  console.log (data.user.id);
+      //  console.log (data.user.email);
+      // console.log (data.user.user_metadata);
+      // console.log(data.user.user_metadata.first_name);
+      // console.log(data.user.user_metadata.last_name);
+      // console.log(data.user.user_metadata.role);
+      // console.log(data.user.user_metadata.email);
+      const { error: dberr } = await supabase
+        .from('customers')
+        .insert({
+          uid: data.user.id,  // store auth id in table so that login user connect with database
+          first_name: data.user.user_metadata.first_name,
+          last_name: data.user.user_metadata.last_name,
+          email: data.user.email,
+          role: data.user.user_metadata.role
+
+        })
+      if (dberr) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error in inserting data',
+          text: dberr.message,
+        });
+      } else {
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Signup successful! Please verify your email before logging in.',
+
+        });
+        window.location.href = "home.html";
+      }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erorr in sigin up ',
+        text: error.message
+      })
+    }
+  }
+  catch (err) {
     Swal.fire({
+      icon: 'error',
+      title: 'sysytem error',
+      text: err.message,
+    })
+  }
+});
+
+
+//  ======================================================== login functionality =================================================================================================
+
+
+let loginEmail = document.getElementById("login-email")
+let loginPass = document.getElementById("login-password")
+let loginBtn = document.getElementById("login-btn")
+
+
+async function login(e) {
+
+  e.preventDefault();
+  try {
+
+
+
+    if (!loginEmail.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'please enter a valid email address',
+
+      });
+      return
+    }
+
+    if (!loginPass.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'please enter atleast six characters password',
+
+      });
+      return
+
+    }
+
+
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: loginEmail.value,
+      password: loginPass.value,
+    })
+
+    if (data) {
+      console.log(data);
+      Swal.fire({
         icon: 'success',
         title: 'Success',
         text: 'Login successful!',
-       
-    }).then(() => {
+
+      }).then(() => {
         window.location.href = "home.html"; // Redirect to dashboard after successful login
-    });
-}else{
-    Swal.fire({
+      });
+    } else {
+
+      Swal.fire({
         icon: 'error',
         title: 'Error',
         text: error.message,
-       
-    });
-}
-  
+
+      });
+    }
+
   }
-   catch (err) {
-  alert("Error: " + err.message);
-}
+  catch (err) {
+    alert("Error: " + err.message);
   }
- loginBtn && loginBtn.addEventListener("click", login) 
+
+
+}
+loginBtn && loginBtn.addEventListener("click", login)
 
 
 
@@ -172,15 +192,15 @@ let logoutBtn = document.getElementById("logout-btn")
 
 
 logoutBtn && logoutBtn.addEventListener("click", async () => {
-    const { error } = await supabase.auth.signOut()
-    if(!error){
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Logout successful!',
-           
-        }).then(() => {
-            window.location.href = "login.html"; // Redirect to homepage after logout
-        });
-    }
+  const { error } = await supabase.auth.signOut()
+  if (!error) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Logout successful!',
+
+    }).then(() => {
+      window.location.href = "../index.html"; // Redirect to homepage after logout
+    });
+  }
 });
