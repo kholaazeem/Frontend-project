@@ -20,9 +20,21 @@ async function checkAdmin(){
   .single()
   console.log(data)
   if(data.role !== 'admin'){
-    alert("User is not admin:", data);
-    // window.location.href = "../signup.html";
+    alert("Access denied ");
+    window.location.href = "../signup.html";
     return
   }
 }
 checkAdmin();
+
+
+    //  Add product in admin page
+
+let prodName = document.getElementById("prod-name")    
+let prodPrice = document.getElementById("prod-price")   
+let prodCateg = document.getElementById("prod-categ") 
+let prodDesc = document.getElementById("prod-desc")
+let prodImg= document.getElementById("prod-img")    
+let prodForm= document.getElementById("prod-form") 
+let colorName = document.querySelectorAll("input[name = 'colorName[]']")
+let colorHex = document.querySelectorAll("input[name = 'colorHex[]']")

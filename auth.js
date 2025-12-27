@@ -92,7 +92,7 @@ signupBtn && signupBtn.addEventListener("click", async (e) => {
           text: 'Signup successful! Please verify your email before logging in.',
 
         });
-        // window.location.href = "home.html";
+        window.location.href = "home.html";
       }
     } else {
       Swal.fire({
