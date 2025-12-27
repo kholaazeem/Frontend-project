@@ -54,7 +54,7 @@ signupBtn && signupBtn.addEventListener("click", async (e) => {
       }
     )
 
-    if (data.user) {  // data.user iss liye diya qk jb hm invalid email format dy rhy hain  to user sign up nhi ho rha but phir bhi if block chl rha bcz data aik object ha and object always true hota ha although properties null(false ) bhi hn so isi liye data.user chlk kra rhy
+    if (data.user) {  // data.user iss liye diya qk jb hm invalid email format dy rhy hain  to user sign up nhi ho rha but phir bhi if block chl rha bcz data aik object ha and object always true hota ha although properties null(false ) bhi hn so isi liye data.user chk kra rhy
 
 
 
@@ -92,7 +92,7 @@ signupBtn && signupBtn.addEventListener("click", async (e) => {
           text: 'Signup successful! Please verify your email before logging in.',
 
         });
-        window.location.href = "home.html";
+        // window.location.href = "home.html";
       }
     } else {
       Swal.fire({
@@ -154,8 +154,16 @@ async function login(e) {
       email: loginEmail.value,
       password: loginPass.value,
     })
+    if(error){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error in login',
+        text: error.message,
 
-    if (data) {
+      });
+      return
+    }
+    if (data.user) {
       console.log(data);
       Swal.fire({
         icon: 'success',
@@ -165,19 +173,17 @@ async function login(e) {
       }).then(() => {
         window.location.href = "home.html"; // Redirect to dashboard after successful login
       });
-    } else {
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message,
-
-      });
     }
 
   }
-  catch (err) {
-    alert("Error: " + err.message);
+  catch (err) { 
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Error: " + err.message,
+
+      });
+   
   }
 
 
