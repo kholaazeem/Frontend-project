@@ -36,12 +36,13 @@ let prodCateg = document.getElementById("prod-categ")
 let prodDesc = document.getElementById("prod-desc")
 let prodImg= document.getElementById("prod-img")    
 let prodForm= document.getElementById("prod-form") 
-let colorName = document.querySelectorAll("input[name = 'colorName[]']")
-let colorHex = document.querySelectorAll("input[name = 'colorHex[]']")
+let colorName = document.querySelectorAll(".color-name-inp");
+let colorHex = document.querySelectorAll(".color-hex-inp");
 
 
 
-    // 1. Naya Color Field Add karne ka function
+
+    // 1. New Color Field Add karne ka function
    window. addColorField = function() {
         // Container dhoondo
         const container = document.getElementById('colors-container');
@@ -52,10 +53,10 @@ let colorHex = document.querySelectorAll("input[name = 'colorHex[]']")
         
         newRow.innerHTML = `
             <div class="col-7">
-                <input type="text" class="form-control" placeholder="Color Name" name="colorName[]">
+                <input type="text" class="form-control color-name-inp " placeholder="Color Name" name="colorName[]">
             </div>
             <div class="col-3">
-                <input type="color" class="form-control form-control-color w-100" value="#000000" name="colorHex[]">
+                <input type="color" class="form-control form-control-color w-100  color-hex-inp" value="#000000" name="colorHex[]">
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-outline-danger w-100" onclick="removeColor(this)">
@@ -82,3 +83,77 @@ let colorHex = document.querySelectorAll("input[name = 'colorHex[]']")
             alert("At least one color is required!");
         }
     }
+
+          
+    //    session storage for product image 
+
+    let imageUrl;
+
+    async function uploadFile(){
+     let file = prodImg.files[0];
+     let fileName = `${Date.now()}-${file.name}`
+
+   try {
+    
+   
+const { data, error } = await supabase
+  .storage
+  .from('product-images')
+  .upload(fileName, file, )
+   if (data) {
+    console.log("File uploaded successfully:", data);
+    // Get public URL
+    const { data: urlData } = supabase
+      .storage
+      .from('product-images')
+      .getPublicUrl(fileName);
+
+      if(urlData){
+        imageUrl = urlData.publicUrl;
+        console.log("Public URL:", imageUrl);
+      }else{
+        console.log("Error in uploding file:", error);
+      }
+   }  
+    
+   
+  
+    }
+      catch (err) {
+    console.log("try catch error:", err);
+   } 
+   return imageUrl;
+    }
+
+  async function submitProd(event){
+    event.preventDefault(); 
+
+           //collect all inputs value and colors 
+    let allColorName = document.querySelectorAll(".color-name-inp");
+    let allColorHex = document.querySelectorAll(".color-hex-inp");
+    console.log(allColorName, allColorHex);
+
+    //  array to store colors
+    let colorArray = [];
+
+    allColorName.forEach((colorInp, index)=>  {
+        let name = colorInp.value;
+        let hex = allColorHex[index].value
+        console.log(name ,hex)
+
+        if(name.trim() !== "" ) {
+           colorArray.push({
+            name : name,
+            hex : hex
+           })
+        }
+    })
+
+
+
+      //    Submit products in tables/DB
+    
+}
+  
+
+prodForm.addEventListener("submit", submitProd);
