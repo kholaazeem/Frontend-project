@@ -91,8 +91,9 @@ let colorHex = document.querySelectorAll(".color-hex-inp");
 
     async function uploadFile(){
      let file = prodImg.files[0];
+     
      let fileName = `${Date.now()}-${file.name}`
-
+  console.log(file , fileName)
    try {
     
    
@@ -151,9 +152,106 @@ const { data, error } = await supabase
 
 
 
-      //    Submit products in tables/DB
+      //    add/insert products in tables/DB
     
+      let imageAdd = await uploadFile()
+      // console.log(imageAdd)
+
+      try {
+        const { error } = await supabase
+  .from('products')
+  .insert({ 
+     name: prodName.value, 
+     category: prodCateg.value,
+     price: prodPrice.value,
+     description: prodDesc.value,
+     image: imageAdd,
+     color: colorArray
+    })
+    if(error){
+      console.log("error in inserting data in db/table" + error)
+    }else{
+      alert("product added in tables suucessfully")
+      showProducts()
+    }
+      } catch (err) {
+        console.log("try catch error" + err)
+      }
 }
   
 
 prodForm.addEventListener("submit", submitProd);
+
+
+// fetch data from database/tables
+
+let productList = document.getElementById("product-list")
+
+
+async function showProducts(ouiou){
+  try {
+    
+    const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    if(data){
+      console.log(data)
+      data.forEach(product=>{
+        productList.innerHTML += `
+        <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img src="${product.image}" class="product-img" alt="Hijab"></td>
+                                        <td><strong>${product.name}</strong></td>
+                                        <td>${product.category}</td>
+                                        <td>Rs. ${product.price}</td>
+                                        <td>${product.color.map(color =>{
+                                          `<span style="background-color: ${color}; height:20px; width: 20px"></span>`
+                                
+                                        })}.join</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+        `
+      })
+    }else{
+      console.log(error)
+    }
+
+
+
+
+
+
+
+
+
+
+
+  } catch (err) {
+    console.log("try catch error" + err)
+  }
+}
+
+showProducts()
