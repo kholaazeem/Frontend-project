@@ -11,6 +11,7 @@ async function checkAdmin(){
     return
    }
 
+
 //    fetch db to check if user is admin
 
  const { data, error } = await supabase
@@ -25,8 +26,10 @@ async function checkAdmin(){
     return
   }
 }
-checkAdmin();
 
+if(window.location.pathname.includes("/admin/")){  //includes check pathname 
+checkAdmin();
+}
 
     //  Add product in admin page
 
@@ -180,78 +183,137 @@ const { data, error } = await supabase
 }
   
 
-prodForm.addEventListener("submit", submitProd);
+prodForm && prodForm.addEventListener("submit", submitProd);
 
 
 // fetch data from database/tables
 
-let productList = document.getElementById("product-list")
 
+ let productList = document.getElementById("product-list")
 
-async function showProducts(ouiou){
-  try {
-    
-    const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    if(data){
-      console.log(data)
-      data.forEach(product=>{
-        productList.innerHTML += `
-        <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Product Name</th>
-                                        <th>Category</th>
-                                        <th>Price</th>
-                                        <th>Stock</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><img src="${product.image}" class="product-img" alt="Hijab"></td>
-                                        <td><strong>${product.name}</strong></td>
-                                        <td>${product.category}</td>
-                                        <td>Rs. ${product.price}</td>
-                                        <td>${product.color.map(color =>{
-                                          `<span style="background-color: ${color}; height:20px; width: 20px"></span>`
-                                
-                                        })}.join</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    
-                                 
-                                </tbody>
-                            </table>
+async function showProducts() {
+   
+    try {
+
+        // --- CHANGE 1: START (Role Check) ---
+        // Loop chalne se pehle check karo k banda Admin hai ya nahi
+        let isAdmin = false; 
+
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            // Agar user login hai, to uska role pucho
+            const { data: userProfile } = await supabase
+                .from('customers')
+                .select('role')
+                .eq('uid', user.id)
+                .single();
+            
+            // Agar role 'admin' hai to flag TRUE kar do
+            if (userProfile && userProfile.role === 'admin') {
+                isAdmin = true;
+            }
+        }
+        // --- CHANGE 1: END ---
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (data) {
+            productList.innerHTML = "";  //its for supabase bcz in supabase previos data also saved 
+            let cardsHTML = '<div class="row g-4">';
+
+            data.forEach(product => {
+                
+                // Colors Loop
+                let colorBadges = '';
+                if (Array.isArray(product.color)) {
+                    colorBadges = product.color.map(c => 
+                        `<span class="color-swatch" 
+                               style="background-color: ${c.hex};" 
+                               title="${c.name}">
+                        </span>`
+                    ).join('');
+                }
+
+                // --- CHANGE 2: START (Button Logic) ---
+                
+                let adminButtons = ''; // Default khali rakho (Aam user ke liye)
+
+                // Agar CHANGE 1 mein confirm hua k ye Admin hai, tabhi buttons banao
+                if (isAdmin === true) {
+                    adminButtons = `
+                        <div class="admin-actions">
+                            <button class="action-btn text-primary" onclick="editProduct(${product.id})" title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="action-btn text-danger" onclick="deleteProduct(${product.id})" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                // --- CHANGE 2: END ---
+
+                // Card HTML
+                cardsHTML += `
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="card product-card h-100">
+                        
+                        <div class="img-container">
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                            
+                            ${adminButtons}
+                        </div>
+
+                        <div class="card-body d-flex flex-column pt-3">
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 10px; letter-spacing: 1px;">
+                                ${product.category}
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                                <h6 class="card-title fw-bold mb-0 text-dark text-truncate" style="max-width: 70%;">
+                                    ${product.name}
+                                </h6>
+                                <span class="fw-bold" style="color: #2c3e50; font-size: 1.1rem;">
+                                    Rs. ${product.price}
+                                </span>
+                            </div>
+
+                            <p class="text-muted small mb-3" style="font-size: 0.85rem; line-height: 1.4;">
+                                ${product.description ? product.description.substring(0, 45) + '...' : ''}
+                            </p>
+                            <div >Available Colors:
+                            </div>
+                            <div class="mt-auto mb-3">
+                                ${colorBadges}
+                            </div>
+
+                            <button class="btn btn-dark w-100 rounded-pill py-2" style="font-size: 0.9rem;" onclick="goToDetail(${product.id})">
+                                View Details
+                            </button>
                         </div>
                     </div>
+                </div>
+                `;
+            });
 
-        `
-      })
-    }else{
-      console.log(error)
+            cardsHTML += '</div>';
+            productList.innerHTML = cardsHTML;
+        } else {
+            console.log(error);
+        }
+
+    } catch (err) {
+        console.log(err);
     }
-
-
-
-
-
-
-
-
-
-
-
-  } catch (err) {
-    console.log("try catch error" + err)
-  }
 }
 
-showProducts()
+window.goToDetail = function(productId) {
+    window.location.href = `../viewDetail.html?id=${productId}`;
+}
+
+showProducts();
+
+export { showProducts };
