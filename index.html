@@ -185,6 +185,97 @@
       .navbar-brand-container { margin-bottom: 15px; }
     }
 
+
+    .about-section {
+  background-color: #ffffff;
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.about-container {
+  max-width: 900px;
+  text-align: center;
+}
+
+.about-container h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #000;
+  margin-bottom: 25px;
+}
+
+.about-container p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 50px 15px;
+  }
+
+  .about-container h2 {
+    font-size: 22px;
+  }
+
+  .about-container p {
+    font-size: 14px;
+  }
+}
+
+/* 💻 Large Screens */
+@media (min-width: 1200px) {
+  .about-container h2 {
+    font-size: 36px;
+  }
+
+  .about-container p {
+    font-size: 16px;
+  }
+}
+
+
+/* Values Section Styling */
+.values-section {
+    padding: 80px 0; /* Upar neeche generous space */
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0; /* Optional: Halka sa border neeche */
+}
+
+.value-heading {
+    font-size: 13px; /* Heading choti lekin bold */
+    font-weight: 700;
+    letter-spacing: 1.5px; /* Letters ke beech space */
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.value-text {
+    font-size: 14px;
+    color: #666666; /* Grey text */
+    line-height: 1.8; /* Lines ke beech space taake parhne mein asani ho */
+    margin-bottom: 0;
+    padding: 0 10px; /* Thoda side padding taake text kinaron se na chipke */
+}
+
+/* Mobile Responsive Tweaks */
+@media (max-width: 768px) {
+    .values-section {
+        padding: 50px 0;
+    }
+    .value-heading {
+        margin-top: 20px;
+    }
+}
+
+
     /* Footer Base Styling */
 .footer-section {
     background-color: #121212; /* Dark black background */
@@ -414,13 +505,83 @@
 
   <!-- background image -->
   <div>
-    <img src="assets/01-bg-img" alt="" class="w-100 " >
+    <img src="assets/01.jpeg" alt="" class="w-100 " >
   </div>
 
-  <h1>All products</h1>
-<div class="card shadow-sm border-0 " id="product-list" >
-                    
-                </div> 
+  <section class="about-section">
+  <div class="about-container">
+    <h2>
+      At Haute Hijab, we make the hijabs you always wished you had – or the ones you never knew were possible.
+    </h2>
+
+    <p>
+      Driven by the Islamic principle of <strong>ihsaan</strong> (striving for perfection in all we do), 
+      we make every hijab and accessory from scratch with meticulous attention to quality, style and innovation – 
+      you won’t find our products anywhere else. Each Haute Hijab is a timeless piece we know you’ll be excited 
+      to put on and feel comfortable and confident in all day, for years to come.
+    </p>
+  </div>
+</section>
+
+<section class="py-5" style="background:#f8edf5">
+  <div class="container">
+
+    <h2 class="text-center mb-5 fw-normal ">Shop The Latest</h2>
+
+    <div class="row" id="product-list">
+      <!-- Cards yahan JS se inject hongi -->
+    </div>
+
+    <div class="text-center mt-5">
+      <button class="btn btn-dark px-4 py-2">View all</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="values-section">
+  <div class="container">
+    <div class="row g-5"> <div class="col-lg-4 col-md-4 col-12 text-center px-lg-4">
+        <h5 class="value-heading">UNPARALLELED QUALITY</h5>
+        <p class="value-text">
+          Our hijabs & accessories are made to last from best-in-class materials. You won't find them anywhere else.
+        </p>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-12 text-center px-lg-4">
+        <h5 class="value-heading">MADE WITH A MISSION</h5>
+        <p class="value-text">
+          Our mission is to create a world where every woman feels comfortable and confident.
+        </p>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-12 text-center px-lg-4">
+        <h5 class="value-heading">COMMUNITY COMES FIRST</h5>
+        <p class="value-text">
+          We exist to celebrate YOU, with great products and uplifting content to enrich your life and nourish your soul.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="py-5" style="background:#f8edf5">
+  <div class="container">
+
+    <h2 class="text-center mb-5 fw-normal ">Our Best Seller</h2>
+
+    <div class="row" id="product-list">
+      <!-- Cards yahan JS se inject hongi -->
+    </div>
+
+    <div class="text-center mt-5">
+      <button class="btn btn-dark px-4 py-2">View all</button>
+    </div>
+
+  </div>
+</section>
 
 
 

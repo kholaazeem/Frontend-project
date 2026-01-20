@@ -192,7 +192,8 @@ prodForm && prodForm.addEventListener("submit", submitProd);
  let productList = document.getElementById("product-list")
 
 async function showProducts() {
-   
+   const isAdminPage = window.location.pathname.includes("/admin/");//ab admin login ho ga but home page pr edit delte nhi dikhy ga
+
     try {
 
         // --- CHANGE 1: START (Role Check) ---
@@ -242,7 +243,7 @@ async function showProducts() {
                 let adminButtons = ''; // Default khali rakho (Aam user ke liye)
 
                 // Agar CHANGE 1 mein confirm hua k ye Admin hai, tabhi buttons banao
-                if (isAdmin === true) {
+                if (isAdmin === true && isAdminPage === true) {
                     adminButtons = `
                         <div class="admin-actions">
                             <button class="action-btn text-primary" onclick="editProduct(${product.id})" title="Edit">
@@ -258,7 +259,7 @@ async function showProducts() {
 
                 // Card HTML
                 cardsHTML += `
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                   <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="card product-card h-100">
                         
                         <div class="img-container">
